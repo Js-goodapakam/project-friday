@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { EASE, viewportOnce, staggerContainer } from "../../lib/motion";
-import MiniFridayAction, {
-  type MiniFridayActionType,
-} from "./MiniFridayAction";
+
+type PillarAction = "innovate" | "automate" | "elevate" | "secure";
 
 const PILLARS: {
   title: string;
   body: string;
-  action: MiniFridayActionType;
+  action: PillarAction;
 }[] = [
   {
     title: "Innovate",
@@ -44,7 +43,7 @@ const pillarVariants = {
 
 export default function WhatIsFriday() {
   const [activeAction, setActiveAction] =
-    useState<MiniFridayActionType | null>(null);
+    useState<PillarAction | null>(null);
 
   return (
     <section className="px-5 py-24 sm:px-8 md:px-10">
@@ -59,6 +58,7 @@ export default function WhatIsFriday() {
           <h2 className="text-[30px] font-semibold leading-tight tracking-tight text-ink sm:text-[36px]">
             Technology should feel simpler.
           </h2>
+
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -99,8 +99,6 @@ export default function WhatIsFriday() {
                     : ""
                 }`}
               >
-                <MiniFridayAction action={pillar.action} active={isActive} />
-
                 <motion.div
                   animate={isActive ? { y: -3 } : { y: 0 }}
                   transition={{ duration: 0.22, ease: "easeOut" }}
@@ -108,6 +106,7 @@ export default function WhatIsFriday() {
                   <h3 className="text-[18px] font-semibold text-ink">
                     {pillar.title}
                   </h3>
+
                   <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink/55">
                     {pillar.body}
                   </p>
