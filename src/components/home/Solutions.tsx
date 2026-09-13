@@ -31,8 +31,13 @@ const SOLUTIONS = [
 ];
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.55, ease: EASE },
+  },
 };
 
 export default function Solutions() {
@@ -40,45 +45,66 @@ export default function Solutions() {
     <section className="px-5 py-24 sm:px-8 md:px-10">
       <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
-          transition={{ duration: 0.6, ease: EASE }}
+          transition={{ duration: 0.65, ease: EASE }}
           className="max-w-xl"
         >
           <h2 className="text-[30px] font-semibold leading-tight tracking-tight text-ink sm:text-[36px]">
             Solutions built around your business.
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-ink/60">
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewportOnce}
+            transition={{ duration: 0.45, delay: 0.1, ease: EASE }}
+            className="mt-4 text-[16px] leading-relaxed text-ink/60"
+          >
             From customer relationships to intelligent automation, Friday
             brings the right technology together.
-          </p>
+          </motion.p>
         </motion.div>
 
         <motion.div
-          variants={staggerContainer(0.08, 0.2)}
+          variants={staggerContainer(0.09, 0.15)}
           initial="hidden"
           whileInView="show"
           viewport={viewportOnce}
           className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
           {SOLUTIONS.map((item) => (
-            <motion.div key={item.title} variants={cardVariants} className="h-full">
+            <motion.div
+              key={item.title}
+              variants={cardVariants}
+              whileHover={{ y: -7 }}
+              whileTap={{ scale: 0.99 }}
+              className="h-full"
+            >
               <Link
                 to={item.href}
-                className="group flex h-full flex-col rounded-2xl border border-[#dceaf4] bg-white p-6 transition-shadow hover:shadow-[0_20px_50px_-20px_rgba(7,26,51,0.28)]"
+                className="group flex h-full flex-col rounded-2xl border border-[#dceaf4] bg-white p-6 transition-all duration-300 hover:border-[#b9d9ec] hover:shadow-[0_24px_55px_-20px_rgba(7,26,51,0.3)]"
               >
-                <h3 className="text-[17px] font-semibold text-ink">
+                <motion.h3
+                  className="text-[17px] font-semibold text-ink"
+                  whileHover={{ x: 2 }}
+                >
                   {item.title}
-                </h3>
+                </motion.h3>
+
                 <p className="mt-2 flex-1 text-[14px] leading-relaxed text-ink/55">
                   {item.body}
                 </p>
+
                 <span className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#078bd3]">
                   Explore
-                  <span className="transition-transform duration-200 group-hover:translate-x-0.5">
+                  <motion.span
+                    className="inline-block"
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 4 }}
+                  >
                     →
-                  </span>
+                  </motion.span>
                 </span>
               </Link>
             </motion.div>

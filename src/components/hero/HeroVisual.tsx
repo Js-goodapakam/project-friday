@@ -1,9 +1,23 @@
 import { motion, MotionValue, useTransform } from "framer-motion";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMouseParallax } from "../../hooks/useMouseParallax";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 import { EASE } from "../../lib/motion";
 import aiBot from "../../assets/AI Bot.png";
+
+
+type MiniFridayActionType = "innovate" | "automate" | "elevate" | "secure";
+
+const MINI_FRIDAY_ACTIONS: Record<
+  MiniFridayActionType,
+  { message: string; symbol: string }
+> = {
+  innovate: { message: "Got an idea?", symbol: "💡" },
+  automate: { message: "I'll handle it.", symbol: "⚙" },
+  elevate: { message: "Let's level up!", symbol: "↗" },
+  secure: { message: "You're covered.", symbol: "🛡️" },
+};
 
 interface TechCardDef {
   label: string;
@@ -136,6 +150,7 @@ export default function HeroVisual() {
     useMouseParallax();
 
   const reducedMotion = usePrefersReducedMotion();
+  const [miniAction, setMiniAction] = useState<MiniFridayActionType | null>(null);
 
   return (
     <div
@@ -300,6 +315,63 @@ export default function HeroVisual() {
             "
           />
         </div>
+      </motion.div>
+
+      {/* Interactive Mini Friday */}
+      <motion.div
+        className="pointer-events-none absolute bottom-[10%] left-1/2 z-30 flex -translate-x-1/2 items-center gap-2"
+        initial={false}
+        animate={
+          miniAction
+            ? { opacity: 1, y: 0, scale: 1 }
+            : { opacity: 0, y: 8, scale: 0.9 }
+        }
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        aria-hidden={!miniAction}
+      >
+        {miniAction && (
+          <>
+            <div className="relative flex h-[64px] w-[64px] items-end justify-center">
+              <motion.img
+                src={aiBot}
+                alt=""
+                className="h-[64px] w-auto object-contain drop-shadow-[0_10px_18px_rgba(11,28,51,0.16)]"
+                animate={
+                  reducedMotion
+                    ? { y: 0, rotate: 0 }
+                    : miniAction === "elevate"
+                      ? { y: [4, -9, 0] }
+                      : miniAction === "innovate"
+                        ? { y: [0, -2, 0], rotate: [0, -4, 4, 0] }
+                        : miniAction === "secure"
+                          ? { y: [0, -2, 0], rotate: [0, -3, 0] }
+                          : { y: [0, -1, 0] }
+                }
+                transition={{
+                  duration: miniAction === "elevate" ? 0.75 : 0.65,
+                  ease: "easeInOut",
+                }}
+              />
+
+              <motion.span
+                className="absolute -right-1 -top-1 text-[21px] leading-none"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={
+                  reducedMotion
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 1, scale: [0.7, 1.12, 1] }
+                }
+                transition={{ delay: 0.14, duration: 0.42 }}
+              >
+                {MINI_FRIDAY_ACTIONS[miniAction].symbol}
+              </motion.span>
+            </div>
+
+            <div className="whitespace-nowrap rounded-xl border border-ink/[0.08] bg-white/95 px-3 py-2 text-[11px] font-medium text-ink shadow-[0_10px_24px_-12px_rgba(11,28,51,0.28)] backdrop-blur-md">
+              {MINI_FRIDAY_ACTIONS[miniAction].message}
+            </div>
+          </>
+        )}
       </motion.div>
 
       {/* Floating tech cards */}
@@ -531,6 +603,20 @@ function FloatingCard({
     >
       <Link
         to={card.to}
+        onMouseEnter={() => {
+          if (card.label === "Automation") setMiniAction("automate");
+          else if (card.label === "AI") setMiniAction("innovate");
+          else if (card.label === "Transformation") setMiniAction("elevate");
+          else if (card.label === "CRM") setMiniAction("secure");
+        }}
+        onMouseLeave={() => setMiniAction(null)}
+        onFocus={() => {
+          if (card.label === "Automation") setMiniAction("automate");
+          else if (card.label === "AI") setMiniAction("innovate");
+          else if (card.label === "Transformation") setMiniAction("elevate");
+          else if (card.label === "CRM") setMiniAction("secure");
+        }}
+        onBlur={() => setMiniAction(null)}
         className="group flex items-center gap-2.5 rounded-2xl border border-ink/[0.06] bg-white/90 px-4 py-3 shadow-[0_8px_24px_-12px_rgba(11,28,51,0.18)] backdrop-blur-sm transition-all duration-200 hover:scale-[1.04] hover:shadow-[0_12px_28px_-10px_rgba(11,28,51,0.24)]"
         style={{
           animation: reducedMotion

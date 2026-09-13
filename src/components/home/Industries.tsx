@@ -12,11 +12,12 @@ const INDUSTRIES = [
 ];
 
 const chipVariants = {
-  hidden: { opacity: 0, y: 10 },
+  hidden: { opacity: 0, y: 14, scale: 0.94 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: EASE },
+    scale: 1,
+    transition: { duration: 0.45, ease: EASE },
   },
 };
 
@@ -25,10 +26,10 @@ export default function Industries() {
     <section className="px-5 py-24 sm:px-8 md:px-10">
       <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
-          transition={{ duration: 0.6, ease: EASE }}
+          transition={{ duration: 0.65, ease: EASE }}
           className="max-w-xl"
         >
           <h2 className="text-[30px] font-semibold leading-tight tracking-tight text-ink sm:text-[36px]">
@@ -37,14 +38,19 @@ export default function Industries() {
         </motion.div>
 
         <motion.div
-          variants={staggerContainer(0.05, 0.2)}
+          variants={staggerContainer(0.07, 0.15)}
           initial="hidden"
           whileInView="show"
           viewport={viewportOnce}
           className="mt-10 flex flex-wrap gap-3"
         >
           {INDUSTRIES.map((name) => (
-            <motion.div key={name} variants={chipVariants}>
+            <motion.div
+              key={name}
+              variants={chipVariants}
+              whileHover={{ y: -3, scale: 1.04 }}
+              whileTap={{ scale: 0.98 }}
+            >
               <Link
                 to="/industries"
                 className="
@@ -54,7 +60,6 @@ export default function Industries() {
                   px-5 py-2.5
                   text-[14px] font-medium text-ink/70
                   transition-all duration-200 ease-out
-                  hover:scale-105
                   hover:border-ink
                   hover:bg-ink
                   hover:text-white

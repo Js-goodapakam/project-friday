@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import aiBot from "../../assets/AI Bot.png";
 
@@ -14,127 +14,206 @@ const QUICK_ACTIONS = [
   "CRM Solutions",
   "Automation",
   "Communication",
+  "Telephony Products",
   "AI Solutions",
   "Digital Transformation",
   "Talk to us",
 ];
 
-const RESPONSES: Record<
-  string,
-  { text: string; suggestions: string[] }
-> = {
+type Response = {
+  text: string;
+  suggestions: string[];
+};
+
+const RESPONSES: Record<string, Response> = {
   friday: {
     text:
-      "I'm Friday — your AI-powered business technology assistant. I bring CRM, automation, communication, AI and digital transformation together so your business can work smarter, move faster and stay connected.",
-    suggestions: [
-      "What can Friday do?",
-      "CRM Solutions",
-      "Automation",
-    ],
+      "I'm Friday — the business technology assistant for Friday. We bring CRM, business automation, customer communication, AI and digital transformation together to help businesses work smarter, move faster and stay connected.",
+    suggestions: ["What can Friday do?", "CRM Solutions", "Automation"],
   },
 
   crm: {
     text:
-      "CRM is the foundation for managing customer relationships. Friday can help you explore CRM implementation, lead management, customer management, sales workflows, follow-ups, reporting and connected business processes.",
-    suggestions: [
-      "CRM Implementation",
-      "CRM + Communication",
-      "Talk to us",
-    ],
+      "Our CRM solutions help businesses manage leads, contacts, customers, sales pipelines, follow-ups, activities, reporting and customer journeys in one connected system. We can help with CRM implementation, customization, workflow design, integrations and process optimization.",
+    suggestions: ["CRM Implementation", "CRM Automation", "CRM + Communication"],
+  },
+
+  crmImplementation: {
+    text:
+      "CRM implementation covers process discovery, module and field design, pipeline configuration, user setup, workflows, dashboards, integrations, data migration where required, testing and rollout. The exact scope depends on your existing process and CRM platform.",
+    suggestions: ["CRM Automation", "Integrations", "Talk to us"],
+  },
+
+  crmAutomation: {
+    text:
+      "CRM automation can handle lead assignment, task creation, follow-ups, notifications, approvals, stage-based actions, renewal reminders and other repetitive processes. The goal is to reduce manual work and improve process consistency.",
+    suggestions: ["CRM Solutions", "Workflow Automation", "Talk to us"],
   },
 
   automation: {
     text:
-      "Let's automate the repetitive work. Friday can help you explore workflow automation, approvals, notifications, lead assignment, follow-ups, data movement and connected business processes — so your team can focus on higher-value work.",
-    suggestions: [
-      "Workflow Automation",
-      "CRM Automation",
-      "Talk to us",
-    ],
+      "Our Business Automation solutions connect repetitive business processes into structured workflows. Typical use cases include lead assignment, approvals, notifications, follow-ups, data movement, task creation and cross-system processes.",
+    suggestions: ["Workflow Automation", "CRM Automation", "Integrations"],
+  },
+
+  workflow: {
+    text:
+      "Workflow automation can connect triggers, conditions, actions, approvals, notifications and system updates. We first understand the process, then design the workflow around the tools your business already uses.",
+    suggestions: ["CRM Automation", "Integrations", "Talk to us"],
   },
 
   communication: {
     text:
-      "Connected communication keeps your customers and teams closer. Friday can help you explore business communication solutions, customer conversations, calling, messaging and communication workflows connected with your business systems.",
-    suggestions: [
-      "Business Communication",
-      "Communication + CRM",
-      "Talk to us",
-    ],
+      "Our Communication solutions help businesses connect customer conversations across business calling, messaging and communication workflows. Communication can also be connected with CRM and automation so teams can manage customer interactions more efficiently.",
+    suggestions: ["Business Calling", "Communication + CRM", "Talk to us"],
+  },
+
+  calling: {
+    text:
+      "For business calling, we can help evaluate cloud telephony, business phone systems, IVR, call routing, call recording, WebRTC/browser calling, CRM-integrated calling and API-based calling requirements. The exact telecom features and availability depend on the deployment and applicable telecom requirements.",
+    suggestions: ["CRM + Communication", "API Integration", "Talk to us"],
+  },
+
+  telephonyProducts: {
+    text:
+      "Our connected business telephony portfolio includes Business Phone System (BPS), Cloud PBX, Cloud Contact Center, WebRTC/browser calling, Hybrid PSTN calling, Mobile Series, Virtual Landline Series, Transactional 1400/1600 Series, Toll Free 1800 Series, international DID services, API-based telephony through PIOPIY, AI Agent connectivity, Truecaller Verified Business Caller ID and Post Call Analytics. The right product depends on your calling model, users/channels, geography and integration requirements.",
+    suggestions: ["Business Phone System", "Cloud Contact Center", "PIOPIY API"],
+  },
+
+  bps: {
+    text:
+      "Business Phone System (BPS) is designed for business calling with capabilities such as inbound, outbound and blended calling, IVR, call routing, call recording, CRM integration and WebRTC/browser calling. Available configurations can include Enterprise, Hybrid Telephony, Mobile Series, Virtual Landline, Transactional 1400/1600 and Toll Free 1800 requirements.",
+    suggestions: ["Cloud PBX", "WebRTC Calling", "Talk to us"],
+  },
+
+  cloudPbx: {
+    text:
+      "Cloud PBX provides a cloud-based business phone system for teams. Plans can be structured around different user bundles, with features such as business calling, IVR, call routing and connected telephony workflows. The exact bundle and commercials depend on users, billing frequency and requirements.",
+    suggestions: ["BPS", "Cloud Contact Center", "Talk to us"],
+  },
+
+  contactCenter: {
+    text:
+      "Cloud Contact Center (CCC) supports customer communication workflows and can include Hybrid Telephony and Auto Dialer capabilities. It is suitable for teams handling structured inbound, outbound or blended customer interactions.",
+    suggestions: ["BPS", "Auto Dialer", "CRM + Communication"],
+  },
+
+  webRtc: {
+    text:
+      "WebRTC enables browser-based calling without relying only on a traditional desk-phone experience. It can be used with CRM and web applications and can support business calling workflows. Hybrid PSTN options can be evaluated when browser and telecom-network calling need to work together.",
+    suggestions: ["BPS", "Cloud PBX", "PIOPIY API"],
+  },
+
+  pioPiy: {
+    text:
+      "PIOPIY is the developer telephony layer for connecting calling capabilities with applications. It can be used for Phone Call API use cases and AI Agent connectivity. Exact API capabilities and implementation depend on the application and use case.",
+    suggestions: ["API Integration", "AI Solutions", "Talk to us"],
+  },
+
+  globalCalling: {
+    text:
+      "International calling can be evaluated using international DID services and outbound calling options for supported countries and destinations. Availability, numbering, KYC, telecom approval and tariffs depend on the country, number type and destination.",
+    suggestions: ["International DID", "Business Calling", "Talk to us"],
   },
 
   ai: {
     text:
-      "AI can turn business data and workflows into intelligent experiences. Friday can help you explore AI-powered assistance, conversational experiences, intelligent automation and ways to connect AI with your business operations.",
-    suggestions: [
-      "AI Solutions",
-      "AI Automation",
-      "Talk to us",
-    ],
+      "Our AI Solutions focus on practical business use cases such as AI assistants, conversational experiences, intelligent automation, AI-enabled workflows and connecting AI with business systems. We can help identify where AI can create measurable business value.",
+    suggestions: ["AI Automation", "AI Assistant", "Talk to us"],
+  },
+
+  aiAutomation: {
+    text:
+      "AI automation combines AI decision-making or content generation with business workflows. Examples can include handling routine queries, classifying information, assisting teams, triggering workflows and connecting AI experiences with business systems.",
+    suggestions: ["AI Solutions", "Workflow Automation", "Integrations"],
   },
 
   transformation: {
     text:
-      "Digital transformation is about making technology work as one connected system. Friday can help you explore how CRM, automation, communication and AI can modernize the way your business operates.",
-    suggestions: [
-      "CRM Solutions",
-      "Automation",
-      "AI Solutions",
-    ],
+      "Digital Transformation is about connecting people, processes and technology into a more scalable operating model. Friday can combine CRM, automation, communication, AI and digital services around your business goals.",
+    suggestions: ["CRM Solutions", "Automation", "AI Solutions"],
   },
 
-  contact: {
+  digitalMarketing: {
     text:
-      "Absolutely! 👋 Tell me what you're looking to build, improve or automate. I can help you identify the right Friday solution and guide you toward the next step with our team.",
-    suggestions: [
-      "I need CRM",
-      "I need Automation",
-      "I want to talk to the team",
-    ],
+      "Our digital marketing services include Branding, Website Development and SEO. We can help businesses strengthen their digital presence, build modern websites and improve search visibility.",
+    suggestions: ["Branding", "Website Development", "SEO"],
   },
 
-  implementation: {
+  branding: {
     text:
-      "Friday can help you plan and implement connected business solutions around CRM, automation, communication and AI. The right implementation depends on your current process, users, integrations and business goals.",
-    suggestions: [
-      "CRM Solutions",
-      "Automation",
-      "Talk to us",
-    ],
+      "Branding helps establish a consistent business identity across your digital presence. Scope can include brand direction, visual identity and supporting digital brand assets based on your requirements.",
+    suggestions: ["Website Development", "Digital Marketing", "Talk to us"],
+  },
+
+  website: {
+    text:
+      "Website Development focuses on creating modern, responsive and business-oriented websites. The scope can cover structure, UI, responsive behavior, content presentation, integrations and deployment requirements.",
+    suggestions: ["Branding", "SEO", "Talk to us"],
+  },
+
+  seo: {
+    text:
+      "SEO focuses on improving your website's search visibility through technical, content and on-page optimization. The exact strategy depends on your website, target audience, market and search objectives.",
+    suggestions: ["Website Development", "Digital Marketing", "Talk to us"],
   },
 
   integration: {
     text:
-      "Integrations connect your existing business tools instead of forcing your team to work across disconnected systems. Friday can help you explore CRM, communication, automation and API-based integration possibilities.",
-    suggestions: [
-      "CRM + Communication",
-      "Workflow Automation",
-      "Talk to us",
-    ],
+      "We can evaluate integrations between CRM, communication, automation, AI and other business systems. Depending on the platform, integration may use native connectors, REST APIs, webhooks or SDK-based approaches.",
+    suggestions: ["CRM Solutions", "Communication", "API Integration"],
   },
 
-  sales: {
+  api: {
     text:
-      "If you're evaluating Friday for your business, I can help you identify the right solution based on your requirements. Tell me about your business, the process you want to improve and what you're trying to achieve.",
-    suggestions: [
-      "CRM Solutions",
-      "Automation",
-      "Talk to us",
-    ],
+      "API-based integration can connect your business applications and automate data exchange between systems. The available API methods depend on the products and platforms involved, so our team can review your exact requirement before confirming feasibility.",
+    suggestions: ["Integrations", "Automation", "Talk to us"],
+  },
+
+  industries: {
+    text:
+      "Friday's solutions can be adapted for industries including Healthcare, Education, Financial Services, Real Estate, Technology and Professional Services. The implementation is designed around the industry's process, customer journey and operational requirements.",
+    suggestions: ["Healthcare", "Financial Services", "Talk to us"],
+  },
+
+  healthcare: {
+    text:
+      "For Healthcare businesses, Friday can help explore CRM, communication, workflow automation, digital presence and AI use cases around customer or patient journeys. The exact solution depends on the organization's process and compliance requirements.",
+    suggestions: ["CRM Solutions", "Automation", "Communication"],
+  },
+
+  financial: {
+    text:
+      "For Financial Services businesses, Friday can help explore CRM, customer communication, workflow automation, integrations and AI-enabled processes. Any regulated or compliance-sensitive implementation needs to be assessed for the specific use case.",
+    suggestions: ["CRM Solutions", "Automation", "AI Solutions"],
+  },
+
+  pricing: {
+    text:
+      "Pricing depends on the product, scope, number of users or channels, integrations, implementation requirements and other project-specific factors. I don't want to give you an incorrect price. Share your requirement and our team will review it and get back to you.",
+    suggestions: ["Tell me about Friday", "What do you need?", "Talk to us"],
+  },
+
+  demo: {
+    text:
+      "Yes, our team can discuss a demo based on your requirement. Tell us which solution you are evaluating and what you want to achieve, and we can route the request to the appropriate team.",
+    suggestions: ["CRM Solutions", "AI Solutions", "Talk to us"],
+  },
+
+  contact: {
+    text:
+      "Absolutely! 👋 Tell me what you're looking to build, improve or automate. I'll help identify the closest Friday solution. If your question needs a product-specific, commercial or technical answer that I don't have, our team will reach out shortly.",
+    suggestions: ["I need CRM", "I need Automation", "I want to talk to the team"],
   },
 
   fallback: {
     text:
-      "I'm here to help. You can ask me about CRM, automation, communication, AI, digital transformation or getting in touch with the Friday team. Tell me what you're trying to achieve and I'll point you in the right direction.",
-    suggestions: [
-      "Tell me about Friday",
-      "CRM Solutions",
-      "Automation",
-    ],
+      "I don't have a reliable answer for that question yet. I don't want to guess and give you incorrect information. Please share your requirement, and our team will reach out shortly.",
+    suggestions: ["Tell me about Friday", "CRM Solutions", "Talk to us"],
   },
 };
 
-function getResponse(input: string) {
+function getResponse(input: string): Response {
   const value = input.toLowerCase().trim();
 
   if (
@@ -148,47 +227,244 @@ function getResponse(input: string) {
   }
 
   if (
-    value.includes("crm") ||
-    value.includes("customer relationship") ||
-    value.includes("customer management") ||
-    value.includes("lead management") ||
-    value.includes("sales pipeline")
+    value.includes("pricing") ||
+    value.includes("price") ||
+    value.includes("cost") ||
+    value.includes("quote")
   ) {
-    return RESPONSES.crm;
+    return RESPONSES.pricing;
   }
 
   if (
-    value.includes("automation") ||
-    value.includes("automate") ||
-    value.includes("workflow") ||
-    value.includes("approval") ||
-    value.includes("repetitive")
+    value.includes("demo") ||
+    value.includes("demonstration")
   ) {
-    return RESPONSES.automation;
+    return RESPONSES.demo;
   }
 
   if (
-    value.includes("communication") ||
-    value.includes("calling") ||
-    value.includes("call") ||
-    value.includes("messaging") ||
-    value.includes("phone") ||
-    value.includes("conversation")
+    value.includes("healthcare") ||
+    value.includes("hospital") ||
+    value.includes("clinic")
   ) {
-    return RESPONSES.communication;
+    return RESPONSES.healthcare;
   }
 
   if (
-    value.includes("ai") ||
+    value.includes("financial") ||
+    value.includes("banking") ||
+    value.includes("finance")
+  ) {
+    return RESPONSES.financial;
+  }
+
+  if (
+    value.includes("industry") ||
+    value.includes("industries") ||
+    value.includes("education") ||
+    value.includes("real estate") ||
+    value.includes("professional services") ||
+    value.includes("technology industry")
+  ) {
+    return RESPONSES.industries;
+  }
+
+  if (
+    value.includes("branding") ||
+    value.includes("brand identity") ||
+    value.includes("brand")
+  ) {
+    return RESPONSES.branding;
+  }
+
+  if (
+    value.includes("website") ||
+    value.includes("web development") ||
+    value.includes("web development")
+  ) {
+    return RESPONSES.website;
+  }
+
+  if (
+    value.includes("seo") ||
+    value.includes("search engine") ||
+    value.includes("search visibility")
+  ) {
+    return RESPONSES.seo;
+  }
+
+  if (
+    value.includes("digital marketing") ||
+    value.includes("digital marketing services")
+  ) {
+    return RESPONSES.digitalMarketing;
+  }
+
+  if (
+    value.includes("api") ||
+    value.includes("webhook") ||
+    value.includes("sdk") ||
+    value.includes("rest api")
+  ) {
+    return RESPONSES.api;
+  }
+
+  if (
+    value.includes("integration") ||
+    value.includes("integrate") ||
+    value.includes("connected systems") ||
+    value.includes("connect systems")
+  ) {
+    return RESPONSES.integration;
+  }
+
+  if (
+    value.includes("ai automation") ||
+    value.includes("ai agent") ||
+    value.includes("ai assistant") ||
+    value.includes("intelligent automation")
+  ) {
+    return RESPONSES.aiAutomation;
+  }
+
+  if (
+    value === "ai" ||
+    value.includes(" ai ") ||
     value.includes("artificial intelligence") ||
-    value.includes("intelligent")
+    value.includes("ai solution") ||
+    value.includes("ai solutions")
   ) {
     return RESPONSES.ai;
   }
 
   if (
+    value.includes("telephony products") ||
+    value.includes("all products") ||
+    value.includes("product list") ||
+    value.includes("telephony portfolio")
+  ) {
+    return RESPONSES.telephonyProducts;
+  }
+
+  if (
+    value.includes("business phone system") ||
+    value.includes("bps") ||
+    value.includes("mobile series") ||
+    value.includes("virtual landline") ||
+    value.includes("toll free") ||
+    value.includes("1400") ||
+    value.includes("1600") ||
+    value.includes("1800 series")
+  ) {
+    return RESPONSES.bps;
+  }
+
+  if (
+    value.includes("cloud pbx") ||
+    value.includes("pbx")
+  ) {
+    return RESPONSES.cloudPbx;
+  }
+
+  if (
+    value.includes("cloud contact center") ||
+    value.includes("contact centre") ||
+    value.includes("auto dialer") ||
+    value.includes("autodialer")
+  ) {
+    return RESPONSES.contactCenter;
+  }
+
+  if (
+    value.includes("webrtc") ||
+    value.includes("browser calling") ||
+    value.includes("hybrid pstn")
+  ) {
+    return RESPONSES.webRtc;
+  }
+
+  if (
+    value.includes("piopiy") ||
+    value.includes("phone call api") ||
+    value.includes("developer telephony")
+  ) {
+    return RESPONSES.pioPiy;
+  }
+
+  if (
+    value.includes("international did") ||
+    value.includes("international calling") ||
+    value.includes("global calling") ||
+    value.includes("usa did") ||
+    value.includes("uk did") ||
+    value.includes("uae did")
+  ) {
+    return RESPONSES.globalCalling;
+  }
+
+  if (
+    value.includes("calling") ||
+    value.includes("call center") ||
+    value.includes("contact center") ||
+    value.includes("phone") ||
+    value.includes("ivr") ||
+    value.includes("webrtc") ||
+    value.includes("cloud pbx") ||
+    value.includes("telephony")
+  ) {
+    return RESPONSES.calling;
+  }
+
+  if (
+    value.includes("communication") ||
+    value.includes("messaging") ||
+    value.includes("whatsapp") ||
+    value.includes("customer conversation")
+  ) {
+    return RESPONSES.communication;
+  }
+
+  if (
+    value.includes("crm automation") ||
+    value.includes("lead assignment") ||
+    value.includes("follow-up") ||
+    value.includes("follow up")
+  ) {
+    return RESPONSES.crmAutomation;
+  }
+
+  if (
+    value.includes("crm implementation") ||
+    value.includes("implement crm") ||
+    value.includes("crm setup")
+  ) {
+    return RESPONSES.crmImplementation;
+  }
+
+  if (
+    value.includes("workflow") ||
+    value.includes("approval") ||
+    value.includes("repetitive work") ||
+    value.includes("business automation") ||
+    value.includes("automate")
+  ) {
+    return RESPONSES.workflow;
+  }
+
+  if (
+    value.includes("crm") ||
+    value.includes("customer relationship") ||
+    value.includes("customer management") ||
+    value.includes("lead management") ||
+    value.includes("sales pipeline") ||
+    value.includes("sales crm")
+  ) {
+    return RESPONSES.crm;
+  }
+
+  if (
+    value.includes("digital transformation") ||
     value.includes("transformation") ||
-    value.includes("digital") ||
     value.includes("modernize") ||
     value.includes("modernise")
   ) {
@@ -196,29 +472,11 @@ function getResponse(input: string) {
   }
 
   if (
-    value.includes("implementation") ||
-    value.includes("implement") ||
-    value.includes("setup") ||
-    value.includes("set up")
-  ) {
-    return RESPONSES.implementation;
-  }
-
-  if (
-    value.includes("integration") ||
-    value.includes("integrate") ||
-    value.includes("api")
-  ) {
-    return RESPONSES.integration;
-  }
-
-  if (
     value.includes("talk to us") ||
     value.includes("contact") ||
-    value.includes("sales") ||
+    value.includes("sales team") ||
     value.includes("team") ||
-    value.includes("demo") ||
-    value.includes("pricing")
+    value.includes("i want to talk")
   ) {
     return RESPONSES.contact;
   }
@@ -229,6 +487,8 @@ function getResponse(input: string) {
 export default function FridayChat() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -237,6 +497,7 @@ export default function FridayChat() {
       suggestions: [
         "Tell me about Friday",
         "CRM Solutions",
+        "Telephony Products",
         "Automation",
       ],
     },
@@ -277,6 +538,7 @@ export default function FridayChat() {
 
     setMessages((current) => [...current, userMessage]);
     setInput("");
+    setIsTyping(true);
 
     window.setTimeout(() => {
       const response = getResponse(value);
@@ -290,10 +552,25 @@ export default function FridayChat() {
           suggestions: response.suggestions,
         },
       ]);
+      setIsTyping(false);
     }, 450);
   };
 
+  useEffect(() => {
+    if (!open) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [messages, isTyping, open]);
+
   const resetConversation = () => {
+    setIsTyping(false);
     setMessages([
       {
         id: Date.now(),
@@ -302,6 +579,7 @@ export default function FridayChat() {
         suggestions: [
           "Tell me about Friday",
           "CRM Solutions",
+          "Telephony Products",
           "Automation",
         ],
       },
@@ -327,7 +605,7 @@ export default function FridayChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-24 right-5 z-[100] w-[360px] max-w-[calc(100vw-32px)] overflow-hidden rounded-[24px] border border-ink/[0.08] bg-white shadow-[0_24px_70px_-20px_rgba(11,28,51,0.35)]"
+            className="fixed bottom-[82px] right-3 z-[100] flex h-[min(620px,calc(100vh-98px))] w-[min(360px,calc(100vw-24px))] max-w-[calc(100vw-24px)] flex-col overflow-hidden rounded-[22px] border border-ink/[0.08] bg-white shadow-[0_24px_70px_-20px_rgba(11,28,51,0.35)] sm:right-5 sm:bottom-[88px] sm:w-[360px] sm:max-w-[calc(100vw-32px)]"
           >
             {/* Header */}
             <div className="relative flex items-center gap-3 bg-gradient-to-r from-[#0A3D91] via-[#126FD1] to-[#078bd3] px-4 py-3.5 text-white">
@@ -358,7 +636,7 @@ export default function FridayChat() {
             </div>
 
             {/* Messages */}
-            <div className="h-[330px] overflow-y-auto bg-[#f8fbfe] px-4 py-4">
+            <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain bg-[#f8fbfe] px-3.5 py-4 sm:px-4">
               <div className="mb-4 text-center text-[10px] font-medium uppercase tracking-[0.12em] text-ink/35">
                 Friday AI Assistant
               </div>
@@ -411,6 +689,9 @@ export default function FridayChat() {
                   </div>
                 ))}
               </div>
+
+              {/* Scroll anchor: always keep the newest message in view */}
+              <div ref={messagesEndRef} aria-hidden="true" className="h-px w-full" />
             </div>
 
             {/* Quick actions */}
@@ -429,13 +710,13 @@ export default function FridayChat() {
                 </button>
               </div>
 
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+              <div className="flex flex-wrap gap-1.5 overflow-visible">
                 {QUICK_ACTIONS.map((action) => (
                   <button
                     key={action}
                     type="button"
                     onClick={() => sendMessage(action)}
-                    className="shrink-0 rounded-full border border-[#078bd3]/20 bg-[#078bd3]/[0.06] px-3 py-1.5 text-[11px] font-medium text-[#0A3D91] transition-all hover:scale-[1.03] hover:border-[#078bd3]/40 hover:bg-[#078bd3]/10"
+                    className="shrink-0 rounded-full border border-[#078bd3]/20 bg-[#078bd3]/[0.06] px-2.5 py-1.5 text-[10.5px] font-medium text-[#0A3D91] transition-all hover:scale-[1.03] hover:border-[#078bd3]/40 hover:bg-[#078bd3]/10"
                   >
                     {action}
                   </button>
@@ -449,7 +730,7 @@ export default function FridayChat() {
                 event.preventDefault();
                 sendMessage(input);
               }}
-              className="flex items-center gap-2 border-t border-ink/[0.06] bg-white p-3"
+              className="flex shrink-0 items-center gap-2 border-t border-ink/[0.06] bg-white p-3"
             >
               <input
                 value={input}
@@ -489,7 +770,7 @@ export default function FridayChat() {
         aria-label={open ? "Close Friday AI chat" : "Open Friday AI chat"}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-5 right-5 z-[101] flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#0A3D91] via-[#126FD1] to-[#078bd3] shadow-[0_12px_35px_-10px_rgba(10,61,145,0.65)] ring-4 ring-white/80"
+        className="fixed bottom-4 right-3 z-[101] flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#0A3D91] via-[#126FD1] to-[#078bd3] shadow-[0_12px_35px_-10px_rgba(10,61,145,0.65)] ring-4 ring-white/80 sm:bottom-5 sm:right-5"
       >
         {open ? (
           <span className="text-2xl leading-none text-white">×</span>
@@ -513,7 +794,7 @@ export default function FridayChat() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
             transition={{ delay: 0.8, duration: 0.25 }}
-            className="pointer-events-none fixed bottom-[27px] right-[84px] z-[99] hidden rounded-full border border-ink/[0.07] bg-white px-3.5 py-2 text-[11px] font-medium text-ink shadow-[0_8px_25px_-10px_rgba(11,28,51,0.3)] sm:block"
+            className="pointer-events-none fixed bottom-[25px] right-[80px] z-[99] hidden rounded-full border border-ink/[0.07] bg-white px-3.5 py-2 text-[11px] font-medium text-ink shadow-[0_8px_25px_-10px_rgba(11,28,51,0.3)] sm:block"
           >
             Hi, I'm Friday! 👋
           </motion.div>

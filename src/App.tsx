@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import FridayChat from "./components/Chat/FridayChat";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
 import CRM from "./pages/CRM";
@@ -106,6 +107,7 @@ export default function App() {
           : "/"
       }
     >
+      <ScrollToTop />
       <Header />
       <AnimatedRoutes />
       <Footer />
