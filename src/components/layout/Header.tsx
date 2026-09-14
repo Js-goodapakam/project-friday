@@ -7,7 +7,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { EASE, staggerContainer } from "../../lib/motion";
-import fridayMark from "../../assets/friday-header-mark.png";
+import fridayMark from "../../assets/Header.png";
 
 interface NavLinkItem {
   label: string;
@@ -280,7 +280,7 @@ const pillShadow = useTransform(
               <img
                 src={fridayMark}
                 alt="Friday"
-                className="h-14 w-auto sm:h-[40px]"
+                className="h-auto w-[120px] sm:w-[125px]"
                 draggable={false}
               />
             </Link>

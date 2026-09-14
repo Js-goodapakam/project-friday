@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { EASE, viewportOnce } from "../../lib/motion";
-import fridayLogo from "../../assets/friday-logo-full.png";
+import fridayLogo from "../../assets/Footer.png";
 
 const SOLUTIONS = [
   { label: "CRM", href: "/crm" },
@@ -254,10 +254,10 @@ export default function Footer() {
           >
             <img
               src={fridayLogo}
-              alt="Friday Innovation"
+              alt="Friday"
               className="
                 h-auto
-                w-[90px]
+                w-[180px]
                 object-contain
               "
               draggable={false}
@@ -487,23 +487,21 @@ export default function Footer() {
             text-ink/45
           "
         >
-          <a
-            href="#"
-            onClick={(event) => event.preventDefault()}
+          <Link
+            to="/privacy-policy"
             className="transition-colors hover:text-ink"
           >
             Privacy Policy
-          </a>
+          </Link>
 
           <span className="text-ink/20">|</span>
 
-          <a
-            href="#"
-            onClick={(event) => event.preventDefault()}
+          <Link
+            to="/terms-and-conditions"
             className="transition-colors hover:text-ink"
           >
             Terms of Service
-          </a>
+          </Link>
         </div>
       </div>
     </motion.footer>
