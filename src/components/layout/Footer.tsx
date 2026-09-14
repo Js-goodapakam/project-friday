@@ -24,7 +24,6 @@ const RESOURCES = [
   { label: "Case Studies", href: "#" },
   { label: "Guides", href: "#" },
   { label: "FAQs", href: "#" },
-  { label: "Contact Us", href: "/contact" },
 ];
 
 const COMPANY = [
