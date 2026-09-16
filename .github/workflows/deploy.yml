@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,39 +31,41 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-- name: Build
-  run: npm run build
+      - name: Build
+        run: npm run build
 
-- name: Verify build output
-  shell: bash
-  run: |
-    echo "===== dist/index.html ====="
-    cat dist/index.html
+      - name: Verify build output
+        shell: bash
+        run: |
+          echo "===== dist/index.html ====="
+          cat dist/index.html
 
-    echo "===== Checking Vite output ====="
-    if grep -q "/src/main.tsx" dist/index.html; then
-      echo "ERROR: dist/index.html still references source main.tsx"
-      exit 1
-    fi
+          echo "===== Checking Vite output ====="
+          if grep -q "/src/main.tsx" dist/index.html; then
+            echo "ERROR: dist/index.html still references source main.tsx"
+            exit 1
+          fi
 
-    if ! grep -q "/project-friday/assets/" dist/index.html; then
-      echo "ERROR: Vite asset path was not generated"
-      exit 1
-    fi
+          if ! grep -q "/project-friday/assets/" dist/index.html; then
+            echo "ERROR: Vite asset path was not generated"
+            exit 1
+          fi
 
-    echo "Build output looks correct."
+          echo "Build output looks correct."
 
-- name: Upload build output
-  uses: actions/upload-pages-artifact@v3
-  with:
-    path: ./dist
+      - name: Upload build output
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
