@@ -1,0 +1,309 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   FRIDAY GLOBAL DESIGN SYSTEM
+   ========================================================= */
+
+:root {
+  /* Primary Brand */
+  --friday-navy: #071a33;
+  --friday-navy-light: #0b2748;
+
+  /* Primary Accent */
+  --friday-blue: #0a84ff;
+  --friday-cyan: #22c1ff;
+
+  /* Secondary Accent */
+  --friday-green: #28d17c;
+
+  /* Light Theme */
+  --friday-light: #f5faff;
+  --friday-light-blue: #eaf6ff;
+  --friday-white: #ffffff;
+
+  /* Text */
+  --friday-text: #071a33;
+  --friday-text-muted: #60748a;
+  --friday-text-light: #b8cce2;
+
+  /* Borders */
+  --friday-border: #dceeff;
+  --friday-border-dark: rgba(255, 255, 255, 0.1);
+
+  /* Effects */
+  --friday-blue-glow: rgba(10, 132, 255, 0.18);
+  --friday-cyan-glow: rgba(34, 193, 255, 0.16);
+}
+
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: theme("fontFamily.sans");
+  background: var(--friday-white);
+  color: var(--friday-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================================
+   GLOBAL SELECTION
+   ========================================================= */
+
+::selection {
+  background: var(--friday-blue);
+  color: var(--friday-white);
+}
+
+/* =========================================================
+   FRIDAY UTILITY CLASSES
+   ========================================================= */
+
+.friday-dark {
+  background: var(--friday-navy);
+  color: var(--friday-white);
+}
+
+.friday-dark-blue {
+  background: var(--friday-navy-light);
+  color: var(--friday-white);
+}
+
+.friday-light {
+  background: var(--friday-light);
+  color: var(--friday-text);
+}
+
+.friday-light-blue {
+  background: var(--friday-light-blue);
+  color: var(--friday-text);
+}
+
+/* =========================================================
+   PAGE BACKGROUND WASH (sky blue + white + dark navy)
+   ========================================================= */
+
+.friday-page-gradient {
+  background:
+    radial-gradient(
+      120% 90% at 6% -4%,
+      rgba(34, 193, 255, 0.24),
+      transparent 55%
+    ),
+    radial-gradient(
+      95% 75% at 98% 105%,
+      rgba(7, 26, 51, 0.12),
+      transparent 60%
+    ),
+    linear-gradient(
+      165deg,
+      var(--friday-light-blue) 0%,
+      var(--friday-white) 48%,
+      var(--friday-white) 100%
+    );
+}
+
+/* =========================================================
+   BLUE TECHNOLOGY GLOW
+   ========================================================= */
+
+.friday-glow {
+  background:
+    radial-gradient(
+      circle at 70% 40%,
+      rgba(34, 193, 255, 0.18),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 55% 75%,
+      rgba(10, 132, 255, 0.14),
+      transparent 38%
+    );
+}
+
+.friday-blue-glow {
+  box-shadow:
+    0 0 40px rgba(10, 132, 255, 0.14),
+    0 0 90px rgba(34, 193, 255, 0.08);
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   FRIDAY GLOBAL DESIGN SYSTEM
+   ========================================================= */
+
+:root {
+  /* Primary Brand */
+  --friday-navy: #071a33;
+  --friday-navy-light: #0b2748;
+
+  /* Primary Accent */
+  --friday-blue: #0a84ff;
+  --friday-cyan: #22c1ff;
+
+  /* Secondary Accent */
+  --friday-green: #28d17c;
+
+  /* Light Theme */
+  --friday-light: #f5faff;
+  --friday-light-blue: #eaf6ff;
+  --friday-white: #ffffff;
+
+  /* Text */
+  --friday-text: #071a33;
+  --friday-text-muted: #60748a;
+  --friday-text-light: #b8cce2;
+
+  /* Borders */
+  --friday-border: #dceeff;
+  --friday-border-dark: rgba(255, 255, 255, 0.1);
+
+  /* Effects */
+  --friday-blue-glow: rgba(10, 132, 255, 0.18);
+  --friday-cyan-glow: rgba(34, 193, 255, 0.16);
+}
+
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: theme("fontFamily.sans");
+  background: var(--friday-white);
+  color: var(--friday-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================================
+   GLOBAL SELECTION
+   ========================================================= */
+
+::selection {
+  background: var(--friday-blue);
+  color: var(--friday-white);
+}
+
+/* =========================================================
+   FRIDAY UTILITY CLASSES
+   ========================================================= */
+
+.friday-dark {
+  background: var(--friday-navy);
+  color: var(--friday-white);
+}
+
+.friday-dark-blue {
+  background: var(--friday-navy-light);
+  color: var(--friday-white);
+}
+
+.friday-light {
+  background: var(--friday-light);
+  color: var(--friday-text);
+}
+
+.friday-light-blue {
+  background: var(--friday-light-blue);
+  color: var(--friday-text);
+}
+
+/* =========================================================
+   PAGE BACKGROUND WASH (sky blue + white + dark navy)
+   ========================================================= */
+
+.friday-page-gradient {
+  background:
+    radial-gradient(
+      120% 90% at 6% -4%,
+      rgba(34, 193, 255, 0.24),
+      transparent 55%
+    ),
+    radial-gradient(
+      95% 75% at 98% 105%,
+      rgba(7, 26, 51, 0.12),
+      transparent 60%
+    ),
+    linear-gradient(
+      165deg,
+      var(--friday-light-blue) 0%,
+      var(--friday-white) 48%,
+      var(--friday-white) 100%
+    );
+}
+
+/* =========================================================
+   BLUE TECHNOLOGY GLOW
+   ========================================================= */
+
+.friday-glow {
+  background:
+    radial-gradient(
+      circle at 70% 40%,
+      rgba(34, 193, 255, 0.18),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 55% 75%,
+      rgba(10, 132, 255, 0.14),
+      transparent 38%
+    );
+}
+
+.friday-blue-glow {
+  box-shadow:
+    0 0 40px rgba(10, 132, 255, 0.14),
+    0 0 90px rgba(34, 193, 255, 0.08);
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
