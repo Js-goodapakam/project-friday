@@ -4,7 +4,7 @@
 
 Friday connects your CRM, automation, communication, and AI into one system — so your business runs like it has a second brain. This repository contains the marketing website for Friday AI, showcasing the platform's solutions, services, and industry use cases.
 
-🔗 **Live site:** [Project Friday](https://js-goodapakam.github.io/project-friday-website)
+🔗 **Live site:** [Project Friday](https://js-goodapakam.github.io/project-friday/)
 
 ---
 
