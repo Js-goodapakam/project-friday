@@ -1,72 +1,41 @@
-name: Deploy to GitHub Pages
+
+name: Friday Owner CI
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
-  build:
+  validate:
+    name: Validate Friday Owner
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "npm"
+          node-version: 24
+          cache: npm
 
-      - name: Install dependencies
+      - name: Install workspace dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build all workspaces
         run: npm run build
 
-      - name: Verify build output
-        shell: bash
-        run: |
-          echo "===== dist/index.html ====="
-          cat dist/index.html
+      - name: Lint all workspaces
+        run: npm run lint
 
-          echo "===== Checking Vite output ====="
-          if grep -q "/src/main.tsx" dist/index.html; then
-            echo "ERROR: dist/index.html still references source main.tsx"
-            exit 1
-          fi
-
-          if ! grep -q "/project-friday/assets/" dist/index.html; then
-            echo "ERROR: Vite asset path was not generated"
-            exit 1
-          fi
-
-          echo "Build output looks correct."
-
-      - name: Upload build output
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Run backend tests
+        run: npm test
