@@ -19,7 +19,7 @@ const TermsAndConditions = () => {
         <article className="mt-6 rounded-[28px] border border-[#dceaf4] bg-white px-6 py-9 shadow-[0_18px_50px_-35px_rgba(7,26,51,0.24)] sm:px-10 lg:px-14">
 
         <p className="mt-4 text-[15px] leading-7 text-[#52657f] sm:text-base">
-          Welcome to Friday Innovation Private Limited ("Friday", "we", "us",
+          Welcome to Engagehubs Technologies Private Limited ("Engage AI", "we", "us",
           or "our").
         </p>
 
@@ -39,7 +39,7 @@ const TermsAndConditions = () => {
         <h2 className="mt-10 border-l-[3px] border-[#0a84ff] pl-4 text-xl font-semibold tracking-[-0.01em] text-[#0b2748] sm:text-2xl">1. About Friday</h2>
 
         <p className="mt-4 text-[15px] leading-7 text-[#52657f] sm:text-base">
-          Friday Innovation Private Limited provides business technology and
+          Engagehubs Technologies Private Limited provides business technology and
           consulting services, which may include:
         </p>
 
@@ -394,7 +394,7 @@ const TermsAndConditions = () => {
 
         <p className="mt-4 text-[15px] leading-7 text-[#52657f] sm:text-base">
           To the extent permitted by applicable law, you agree to indemnify and
-          hold harmless Friday Innovation Private Limited and its directors,
+          hold harmless Engagehubs Technologies Private Limited and its directors,
           officers, employees, affiliates, and service providers from claims,
           liabilities, losses, damages, and reasonable expenses arising from:
         </p>
@@ -522,7 +522,7 @@ const TermsAndConditions = () => {
         </p>
 
         <p className="mt-4 text-[15px] leading-7 text-[#52657f] sm:text-base">
-          <strong>Friday Innovation Private Limited</strong>
+          <strong>Engagehubs Technologies Private Limited</strong>
           <br />
           Email:{" "}
           <a className="font-semibold text-[#078bd3] underline decoration-[#b9ddf5] underline-offset-4 transition-colors hover:text-[#0a84ff]" href="mailto:hello@fridaycore.com">
@@ -533,7 +533,7 @@ const TermsAndConditions = () => {
           <br />
           Registered Office: India
         </p>
-          <div className="mt-10 border-t border-[#e5edf4] pt-6 text-sm text-[#7a8aa0]">Friday Innovation Private Limited</div>
+          <div className="mt-10 border-t border-[#e5edf4] pt-6 text-sm text-[#7a8aa0]">Engagehubs Technologies Private Limited</div>
         </article>
       </div>
     </main>

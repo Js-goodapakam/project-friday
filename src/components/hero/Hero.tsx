@@ -42,7 +42,7 @@ export default function Hero() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.75, ease: EASE, delay: 0.69 }}
               >
-                Thats Friday AI.
+                That's Engage AI.
               </motion.span>
             </span>
           </h1>
@@ -53,7 +53,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.95 }}
           >
-            Friday connects your CRM, automation, communication, and AI into one
+            Engage AI connects your CRM, automation, communication, and AI into one
             system - so your business runs like it has a second brain.
           </motion.p>
 
@@ -63,12 +63,12 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE, delay: 1.1 }}
           >
-            {/* Explore Friday */}
+            {/* Explore Engage AI */}
             <Link
               to="/crm"
               className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 text-[14.5px] font-medium text-white transition-all duration-200 ease-out hover:scale-105 hover:bg-ink/90 hover:shadow-lg"
             >
-              Explore Friday
+              Explore Engage AI
               <span className="transition-transform duration-200 group-hover:translate-x-0.5">
                 →
               </span>

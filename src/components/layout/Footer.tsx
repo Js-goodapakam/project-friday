@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { EASE, viewportOnce } from "../../lib/motion";
-import fridayLogo from "../../assets/Footer.png";
 
 const SOLUTIONS = [
   { label: "CRM", href: "/crm" },
@@ -252,16 +251,9 @@ export default function Footer() {
             to="/"
             className="inline-flex items-center"
           >
-            <img
-              src={fridayLogo}
-              alt="Friday"
-              className="
-                h-auto
-                w-[180px]
-                object-contain
-              "
-              draggable={false}
-            />
+            <span className="rounded-xl bg-[#071a33] px-4 py-2.5 text-[25px] font-bold tracking-[-0.05em] text-white">
+              Engage <span className="text-[#22c1ff]">AI</span>
+            </span>
           </Link>
 
           <p
@@ -273,7 +265,7 @@ export default function Footer() {
               text-ink/60
             "
           >
-            Friday connects your CRM, automation, communication,
+            Engage AI connects your CRM, automation, communication,
             and AI into one intelligent system
           </p>
 
@@ -474,7 +466,7 @@ export default function Footer() {
         "
       >
         <span className="text-[12px] text-ink/45">
-          © {year} Friday Innovation Private Limited.
+          © {year} Engagehubs Technologies Private Limited.
           All rights reserved.
         </span>
 

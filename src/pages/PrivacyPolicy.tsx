@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
           <div className="relative">
             <div className="mb-4 flex items-center gap-3">
               <span className="h-1 w-10 rounded-full bg-[#0a84ff]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#078bd3]">Friday • Legal</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#078bd3]">Engage AI • Legal</span>
             </div>
             <h1 className="text-4xl font-semibold tracking-[-0.03em] text-[#0b2748] sm:text-5xl">Privacy Policy</h1>
             <p className="mt-4 inline-flex rounded-full border border-[#d9ebf8] bg-[#f5faff] px-4 py-2 text-sm font-medium text-[#52657f]">Last Updated: 03 September 2026</p>
@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
         <article className="mt-6 rounded-[28px] border border-[#dceaf4] bg-white px-6 py-9 shadow-[0_18px_50px_-35px_rgba(7,26,51,0.24)] sm:px-10 lg:px-14">
 
         <p className="mt-4 text-[15px] leading-7 text-[#52657f] sm:text-base">
-          Friday innovation Private Limited ("Friday", "we", "us", or "our")
+          Engagehubs Technologies Private Limited ("Engage AI", "we", "us", or "our")
           respects your privacy and is committed to protecting your personal
           information.
         </p>
@@ -54,7 +54,7 @@ const PrivacyPolicy = () => {
         <h2 className="mt-10 border-l-[3px] border-[#0a84ff] pl-4 text-xl font-semibold tracking-[-0.01em] text-[#0b2748] sm:text-2xl">2. AI and Chat Information</h2>
 
         <p className="mt-4 text-[15px] leading-7 text-[#52657f] sm:text-base">
-          When you interact with Friday AI or other chat functionality on our
+          When you interact with Engage AI or other chat functionality on our
           website, we may collect chat messages, conversation history,
           conversation identifiers, timestamps, and information voluntarily
           provided during the conversation.
@@ -194,7 +194,7 @@ const PrivacyPolicy = () => {
         </p>
 
         <p className="mt-4 text-[15px] leading-7 text-[#52657f] sm:text-base">
-          <strong>Friday Innovation Private Limited</strong>
+          <strong>Engagehubs Technologies Private Limited</strong>
           <br />
           Email: privacy@fridaycore.com
           <br />
@@ -202,7 +202,7 @@ const PrivacyPolicy = () => {
           <br />
           Registered Office: India
         </p>
-          <div className="mt-10 border-t border-[#e5edf4] pt-6 text-sm text-[#7a8aa0]">Friday Innovation Private Limited</div>
+          <div className="mt-10 border-t border-[#e5edf4] pt-6 text-sm text-[#7a8aa0]">Engagehubs Technologies Private Limited</div>
         </article>
       </div>
     </main>

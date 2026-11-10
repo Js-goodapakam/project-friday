@@ -7,7 +7,6 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { EASE, staggerContainer } from "../../lib/motion";
-import fridayMark from "../../assets/Header.png";
 
 interface NavLinkItem {
   label: string;
@@ -61,7 +60,7 @@ const NAV: NavEntry[] = [
         items: [
           { label: "Automation", href: "/automation" },
           { label: "Communication", href: "/communication" },
-          { label: "Friday AI", href: "/friday-ai" },
+          { label: "Engage AI", href: "/friday-ai" },
         ],
       },
       {
@@ -275,14 +274,11 @@ const pillShadow = useTransform(
             <Link
               to="/"
               className="flex shrink-0 items-center"
-              aria-label="Friday Home"
+              aria-label="Engage AI Home"
             >
-              <img
-                src={fridayMark}
-                alt="Friday"
-                className="h-auto w-[120px] sm:w-[125px]"
-                draggable={false}
-              />
+              <span className="rounded-lg bg-[#071a33] px-3 py-2 text-[18px] font-bold tracking-[-0.04em] text-white sm:text-[19px]">
+                Engage <span className="text-[#22c1ff]">AI</span>
+              </span>
             </Link>
 
             <nav

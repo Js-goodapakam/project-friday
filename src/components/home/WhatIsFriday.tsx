@@ -66,7 +66,7 @@ export default function WhatIsFriday() {
             transition={{ duration: 0.45, delay: 0.1, ease: EASE }}
             className="mt-4 text-[16px] leading-relaxed text-ink/60"
           >
-            Friday brings CRM, automation, communication, and AI together so
+            Engage AI brings CRM, automation, communication, and AI together so
             businesses can focus on customers, people, and growth — one
             connected system instead of five disconnected tools.
           </motion.p>
