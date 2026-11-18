@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        display: ["Manrope", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       colors: {
         ink: "#0b1c33",

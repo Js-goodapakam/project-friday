@@ -307,3 +307,36 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* =========================================================
+   ENGAGE AI TYPOGRAPHY — Manrope headings, Inter interface
+   ========================================================= */
+
+:root {
+  --engage-font-display: "Manrope", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --engage-font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--engage-font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--engage-font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.025em;
+}
+
+h1,
+h2 {
+  letter-spacing: -0.035em;
+}

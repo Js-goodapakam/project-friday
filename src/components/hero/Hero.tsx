@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="mx-auto grid w-full max-w-7xl items-center gap-12 md:grid-cols-2 md:gap-8">
         {/* Text column */}
         <div>
-          <h1 className="text-[38px] font-semibold leading-[1.08] tracking-tight text-ink sm:text-[52px] md:text-[58px]">
+          <h1 className="text-[38px] font-medium leading-[1.12] tracking-tight text-ink sm:text-[50px] md:text-[54px] xl:text-[58px]">
             <span className="block overflow-hidden">
               <motion.span
                 className="block"
@@ -125,7 +125,7 @@ function RotatingHeadlineLine({
       <AnimatePresence mode="wait">
         <motion.span
           key={words[index]}
-          className="block bg-gradient-to-r from-[#0A3D91] via-[#126FD1] to-[#1E90FF] bg-clip-text text-transparent"
+          className="block bg-gradient-to-r from-[#0A3D91] via-[#126FD1] to-[#1E90FF] bg-clip-text font-extrabold text-transparent"
           initial={{
             y: reducedMotion ? 0 : "115%",
             opacity: reducedMotion ? 1 : 0,
